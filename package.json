@@ -1,0 +1,41 @@
+{
+  "name": "three-of-coins-voting",
+  "version": "1.0.0",
+  "description": "three of coins voting app",
+  "main": "index.js",
+  "scripts": {
+        "start": "node index.js",
+	    "pretest": "eslint ./ --fix",
+	    "test": "echo \"Tests complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eja4296/three-of-coins-voting.git"
+  },
+  "author": "Hive Minds",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eja4296/three-of-coins-voting/issues"
+  },
+  "homepage": "https://github.com/eja4296/three-of-coins-voting#readme",
+  "dependencies": {
+    "debug": "^4.0.1",
+    "engine.io": "^3.2.0",
+    "expect.js": "^0.3.1",
+    "express": "^4.16.3",
+    "has-binary2": "^1.0.3",
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
+    "socket.io": "^2.1.1",
+    "socket.io-adapter": "^1.1.1",
+    "socket.io-client": "^2.1.1",
+    "socket.io-parser": "^3.2.0",
+    "superagent": "^4.0.0-beta.5",
+    "supertest": "^3.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  }
+}

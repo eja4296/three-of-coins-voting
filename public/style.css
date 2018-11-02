@@ -1,0 +1,716 @@
+/* Fix user-agent */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+img{
+  box-shadow: 3px 3px 5px black;
+}
+
+
+html, input {
+  font-family:
+    "HelveticaNeue-Light",
+    "Helvetica Neue Light",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    "Lucida Grande",
+    sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+  word-wrap: break-word;
+}
+
+/* Pages */
+
+.pages {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.page {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+/* Login Page */
+
+.login.page {
+  background-color: #000;
+}
+
+.login.page .form {
+  height: 100px;
+  margin-top: -100px;
+  position: absolute;
+
+  text-align: center;
+  top: 60%;
+  width: 100%;
+}
+
+.login.page .form .usernameInput {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  outline: none;
+  padding-bottom: 15px;
+  text-align: center;
+  
+  width: 400px;
+}
+
+.login.page .title {
+  font-size: 200%;
+  
+}
+
+.login.page #loginPageTitle{
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 3em;
+  margin-bottom: 100px;
+}
+
+.login.page #welcome{
+  margin-bottom: 25px;
+  text-align: center;
+  
+}
+
+.login.page .usernameInput {
+  font-size: 200%;
+  letter-spacing: 3px;
+}
+
+.login.page .title, .login.page .usernameInput {
+  color: #fff;
+  font-weight: 100;
+}
+
+/* Chat page */
+
+.chat.page {
+  display: none;
+}
+
+/* Font */
+
+.messages {
+  font-size: 150%;
+}
+
+.inputMessage {
+  font-size: 100%;
+}
+
+.log {
+  color: gray;
+  font-size: 70%;
+  margin: 5px;
+  text-align: center;
+}
+
+/* Messages */
+
+.chatArea {
+  height: 95%;
+  
+}
+
+.messages {
+  height: 100%;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 10px 20px 10px 20px;
+}
+
+.message.typing .messageBody {
+  color: gray;
+}
+
+.username {
+  font-weight: 700;
+  overflow: hidden;
+  padding-right: 15px;
+  text-align: right;
+}
+
+/* Input */
+
+.inputMessage {
+  border: 5px solid #000;
+  
+  bottom: 0;
+  height: 5%;
+  left: 0;
+  outline: none;
+  padding-left: 10px;
+  position: relative;
+  display: block;
+  right: 0;
+  width: 100%;
+}
+
+
+/*
+#lore{
+  font-size: 1em;
+  float: left;
+  text-align: center;
+  font-family: 'Berkshire Swash', cursive;
+  width: 100%;
+  
+  
+
+}
+
+#leftSide{
+  height: 100%;
+  width: 25%;
+  position: fixed;
+  
+  right: 0px;
+  
+}
+
+#leftSide .chatArea{
+  border-left: 5px solid black;
+  
+}
+
+#rightSide{
+  height: 1500px;
+  width: 75%;
+  
+  float:left;
+
+}
+
+#rightSide #heading{
+  
+  position: relative;
+  left: 7.5%;
+}
+
+#rightSide #gameTitle{
+  margin-top: 10px; 
+  float: left;
+  width: 50%;
+  
+}
+
+#rightSide #gameTitle h1{
+ padding: 0;
+  margin: 0;
+  
+}
+
+#rightSide h1{
+  text-align: center;
+  font-size: 3em;
+  font-family: 'Uncial Antiqua', cursive;
+
+  
+}
+
+
+#textOverlay{
+  display: none;
+  visibility: hidden;
+}
+
+#rightSide #threeOfPentNormal, #rightSide #threeOfPentReverse{
+  width: 12.5%;
+  float: left;
+  margin: 2.5%
+}
+
+#rightSide #threeOfPentReverse{
+  transform: rotate(180deg);
+}
+
+
+
+#rightSide #resetButton{
+  margin-top: 10px;
+  text-align: center;
+  
+  float: left;
+  width: 10%;
+  left: 45%;
+}
+
+#rightSide #gameArea{
+  float: left;
+  width: 95%;
+  margin: 2.5%;
+  margin-top: 0;
+  padding: 2.5%;
+  border-top: 3px solid black;
+}
+
+#rightSide #gameArea #fool{
+  float: left;
+  width: 20%;
+  font-family: 'Berkshire Swash', cursive;
+  padding-right: 5%;
+  border-right: 3px solid black;
+  
+}
+
+#rightSide #gameArea #fool #stats h3{
+  margin-left: 10px;
+  font-family: Helvetica;
+}
+
+#rightSide #gameArea #fool img{
+  width: 100%;
+}
+
+#rightSide #gameArea{
+  
+  font-family: 'Berkshire Swash', cursive;
+}
+
+#rightSide #gameArea #eventArea{
+  float: left;
+  width: 80%;
+  text-align: center;
+  font-family: 'Berkshire Swash', cursive;
+}
+
+#rightSide #gameArea #eventArea #eventImageAndTitle{
+  width: 33.3%;
+  float: left;
+}
+
+#rightSide #gameArea #eventArea img{
+  width: 80%;
+}
+
+#rightSide #gameArea #eventArea #eventInformation{
+  text-align: left;
+  width: 33.3%;
+  float: left;
+  padding: 2.5%;
+  padding-top: 0%;
+  
+}
+
+#options{
+  font-family: Helvetica;
+}
+
+#option0, #option1, #option2, #option3{
+  font-family: Helvetica;
+}
+
+#rightSide #gameArea #eventArea #voteArea{
+  width: 33.3%;
+  float: left;
+  font-family: Helvetica;
+  padding-top: 0%;
+  
+}
+
+#rightSide .votes{
+  float: left;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+#rightSide .votes li{
+  float: left;
+  text-align: center;
+  width: 20%;
+  
+  margin-right: 2.5%;
+  margin-left: 2.5%; 
+  margin-top: 10px;
+}
+
+
+#rightSide #voteButtons button{
+  float:left;
+  text-align: center;
+  width: 100%;
+  margin-right: 2.5%;
+  margin-left: 2.5%;
+  
+  margin-bottom: 2.5%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 3px;
+  font-family: 'Berkshire Swash', cursive;
+  color: white;
+  font-size: 1em;
+  background-color: midnightblue;
+  background-image: linear-gradient(midnightblue, black);
+}
+
+#rightSide #eventArea li p{
+  display: inline;
+}
+
+#rightSide #eventArea #voteCompleted{
+  margin-top: 25px;
+  float: left;
+}
+
+  #voteTimer, #voteIntermission{
+    font-family: Helvetica; 
+    font-size: 1em;
+
+  }
+
+*/
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  
+  
+  /*
+  .login.page .form {
+    top: 75%;
+  }
+
+.login.page .form .usernameInput {
+
+  width: 90%;
+}
+
+  #leftSide{
+    float: left;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    background-color: white;
+  }
+  
+  #leftSide .inputMessage{
+    height: 25%;
+  }
+  
+  #leftSide .chatArea{
+    
+    height: 75%;
+    bottom: 0;
+    border-left: none;
+    border-top: 5px solid black;
+  }
+
+#rightSide{
+  
+  height: 75%;
+  width: 100%;
+  margin: 0;
+  left: 0;
+  float:left;
+
+}
+  
+#rightSide #heading{
+  z-index: 1;
+  position: fixed;
+  height: 10%;
+  width: 100%;
+  top: 0;
+  margin-bottom: 15px;
+  left:0;
+  color: white;
+  background-color: black;
+  border-bottom: 5px solid black;
+}
+
+#rightSide #gameTitle{
+  position: relative;
+  width: 87.5%;
+  text-align: center;
+  margin-top: 2%;
+  left:5%;
+}
+
+#rightSide h1{
+  text-align: center;
+  font-size: 1em;
+  display: inline;
+  font-family: 'Uncial Antiqua', cursive;
+}
+
+#rightSide h3{
+ 
+}
+  
+  #rightSide #heading h3{
+    font-size: .65em;
+  }
+
+  
+#rightSide #threeOfPentNormal, #rightSide #threeOfPentReverse{
+  position: absolute;
+  height: 100%;
+  margin: 0;
+  
+}
+  
+
+  
+  
+
+  
+  #startButton{
+    
+    
+  }
+  
+ #rightSide .votes li{
+  float: left;
+  text-align: center;
+  width: 20%;
+  
+  margin-right: 2.5%;
+  margin-left: 2.5%; 
+  margin-top: 10px;
+}
+
+
+#rightSide #voteButtons button{
+  float:left;
+  text-align: center;
+  width: 90%;
+  margin-right: 2.5%;
+  margin-left: 2.5%;
+  margin-top: 15px;
+  
+}
+  
+
+  
+#rightSide #resetButton{
+  margin-top: 5%;
+  margin-bottom: 50px;
+  text-align: center;
+  width: 50%;
+  left: 25%;
+}
+  
+#rightSide #gameArea{
+  z-index: -1;
+  position: relative;
+  top: 15%;
+  width: 100%;
+  
+  margin: 0;
+  padding: 0;
+  border: none;
+  margin-bottom: 500px;
+  padding-bottom: 250px;
+}
+
+#rightSide #gameArea #fool{
+  width: 25%;
+  left: 10%;
+  font-family: 'Berkshire Swash', cursive;
+  border: none;
+
+  
+  padding: 0%;
+}
+
+#rightSide #gameArea #fool #stats h3{
+  margin-left: 10px;
+}
+
+#rightSide #gameArea #fool img{
+  width: 80%;
+  position: relative;
+  margin: 2.5%;
+  left: 5%;
+  
+}
+
+  #startButton{
+    display: none;
+    visibility: hidden;
+  }
+  
+#rightSide #gameArea #fool #stats{
+  width: 100%;
+  float: left;
+  display: block;
+  margin-left: 2.5%;
+}  
+  
+  .stats{
+    position: relative;
+    width: 100%;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    font-size: .65em;
+    
+  }
+
+  h2{
+    padding: 0;
+    margin: 0;
+  }
+  
+  #rightSide #gameArea #fool #stats h2{
+    padding: 0;
+    margin: 0;
+    
+  }
+  
+  #rightSide #gameArea #eventArea{
+    width: 75%;
+    border-left: 1px solid black;
+    padding: 2.5%;
+  }
+  
+  #rightSide #gameArea #eventArea #eventTitle{
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+  }
+  
+  
+  
+#rightSide #gameArea #eventArea #eventImageAndTitle{
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 90%;
+  
+  left: 5%;
+  
+}
+  
+  #rightSide #gameArea #eventArea #eventImage{
+    padding: 0;
+    margin: 0;
+    left: 0;
+    width: 100%;
+    
+    
+  }
+  
+
+
+#rightSide #gameArea #eventArea #eventInformation{
+  top: 50%;
+  
+  
+  width: 100%;
+  
+  padding: 0;
+  margin: 0;
+  
+}
+  
+
+#rightSide #gameArea #eventArea #eventInformation #options{
+  
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+  
+
+  
+
+  
+  #rightSide #gameArea #eventArea #eventInformation ul{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+  
+  #rightSide #gameArea #eventArea #eventInformation li{
+  font-size: .65em;
+  
+  width: 100%;
+  
+  
+  
+}
+  
+#rightSide #gameArea #eventArea #voteArea{
+  
+  float: left;
+  
+  
+  
+  width: 100%;
+}
+  
+  #rightSide #gameArea #eventArea .votes{
+    display: none;
+    visibility: hidden;
+  }
+  
+  #rightSide #gameArea #eventArea #voteButtons button{
+    z-index: 2;
+    width: 45%;
+   
+  }
+  
+  #currentVote, #voteWeight, #voteTimer, #voteIntermission{
+    width: 100%;
+    float: left;
+  }
+  
+  #currentVote, #voteWeight{
+    width: 50%;
+    float: left;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+  }
+  
+  #voteTimer, #voteIntermission{
+    font-family: Helvetica; 
+    font-size: 0.75em;
+    text-align: left;
+  }
+
+  #voteCompleted{
+    font-size: 1em;
+    margin-bottom: 10px;
+    padding: 0;
+    font-family: Helvetica; 
+    width: 100%;
+    
+  }
+  
+  #lore{
+    width: 100%;
+  }
+  
+  
+  */
+}

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimumscale=1.0, maximum-scale=1.0">
+  <title>Three of Coins - Voting</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Eagle+Lake|Quintessential|Uncial+Antiqua|UnifrakturMaguntia" rel="stylesheet">
+</head>
+<body>
+  <ul class="pages">
+    <li class="chat page">
+      
+      
+      <!--
+      <div id="rightSide">
+        
+        <div id="heading">
+          <img id="threeOfPentNormal" src="media/Pents03.jpg" alt="Three of Pentacles" />
+          <div id="gameTitle">
+            <h1>Three</h1>
+            <h1>of</h1>
+            <h1>Coins</h1>
+            <div id="lore">
+            <h3 >- All are the fool. Choice controls your fate.</h3>
+          </div>
+          </div>
+          
+          <img id="threeOfPentReverse" src="media/Pents03.jpg" alt="Three of Pentacles" />
+          
+          
+          
+          
+        </div>
+        
+        <div id="gameArea">
+          
+            <div id="fool">
+              <img src="media/Fool.jpg" alt="The Fool">
+              <div id="stats">
+                <h2>Stats </h2>
+                <h3 class="stats" id="health">Health: 10</h3>
+                <h3 class="stats" id="strength">Strength: 5</h3>
+                <h3 class="stats" id="intelligence">Intelligence: 3</h3>
+                <h3 class="stats" id="charisma">Charisma: 4</h3>
+                <h3 class="stats" id="luck">Luck: 6</h3>
+                <h3 class="stats" id="gold">Gold: 10</h3>
+              </div>
+            </div>
+          
+          <button id="startButton">Start</button>
+          <div id="eventArea">
+            <h2 id="eventTitle">The Magician</h2>
+            <div id="eventImageAndTitle">
+              
+            <img id="eventImage" src="media/magician.jpg" alt="Event Image">
+              
+              <div id="textOverlay">
+                    
+
+              </div>
+              
+              
+            </div>
+            
+            <div id="eventInformation">
+              <p id="description">(Description coming soon...)</p>
+              
+              <p id="options">What will you do?</p>
+              <ul id="optionList">
+                <li ><p id="option0">A. Drink</p></li>
+                <li ><p id="option1">B. Drink</p></li>
+                <li ><p id="option2">C. Drink</p></li>
+                <li ><p id="option3">D. Drink</p></li>
+                
+              </ul>
+              
+              <div id="voteCompleted">
+                
+            </div>
+            
+            </div>
+            
+            <div id="endGame"></div>
+            
+            <div id="voteArea">
+          
+                
+              <div id="voteTimer">
+                  Timer:
+                </div>
+              <div id="voteIntermission">
+
+                </div>
+                <div id="currentVote">
+                  <h3>Vote: </h3>
+                </div>
+              <div id="voteWeight">
+                <h3>Weight: 1</h3>
+              </div>
+              
+                
+              
+                
+          
+                <ul class="votes">
+                  <li id="voteA">Votes for A: 0</li>
+                  <li id="voteB">Votes for B: 0</li>
+                  <li id="voteC">Votes for C: 0</li>
+                  <li id="voteD">Votes for D: 0</li>
+                </ul>
+              
+            
+
+               
+              
+                
+          
+          
+          
+          
+          
+        </div>
+            
+            
+          
+          </div>
+          
+          </div>
+      </div>
+
+-->
+      <div id="rightSide">
+       <div id="voteButtons">          
+                  <button id="button0">A</button>
+                  <button id="button1">B</button>
+                  <button id="button2">C</button>
+                  <button id="button3">D</button>
+                </div>
+        </div>
+      
+      <div id="leftSide">
+        <div class="chatArea">
+
+
+
+          <ul class="messages"></ul>
+        </div>
+
+        <input class="inputMessage" placeholder="Type here..."/>
+      
+      </div>
+      
+    </li>
+    <li class="login page">
+      <div id="welcome">
+          <h3 class="title">Welcome to</h3>
+          <h1 class="title" id="loginPageTitle">Three of Coins</h1>
+        </div>
+      <div class="form">
+        
+        <h3 class="title">Make a username:</h3>
+        <input class="usernameInput" type="text" maxlength="14" />
+      </div>
+    </li>
+  </ul>
+  
+
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>
