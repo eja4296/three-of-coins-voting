@@ -852,12 +852,7 @@ io.on('connection', (socket) => {
       default:
         break;
     }
-    
-    console.log("sword: " + swordVotes.length);
-    console.log("wand: " + wandVotes.length);
-    console.log("cup: " + cupVotes.length);
-    console.log("coin: " + coinVotes.length);
-    
+
     io.emit('updatePlayerVotes', {
       numUsersVoted: numUsersVoted,
       numUsers: numUsers

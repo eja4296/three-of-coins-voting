@@ -308,8 +308,7 @@ $(() => {
     playerVote = e.target.value;
     
     
-    console.log(playerVote);
-    console.log(playerPreviousVote);
+
     if(playerVote != playerPreviousVote){
       socket.emit('playerVote', playerVote, playerVoteWeight, playerPreviousVote, playerVoted);
       buttonA.style.border = "1px solid black";
@@ -334,15 +333,12 @@ $(() => {
     if(totalPlayersVoted > 0){
       socket.emit('submitVotes');
     }
-    
   }
   
   submitButton.addEventListener('click', submitVotes);
   
   const resetVotes = () =>{
     socket.emit('resetVotes');
-    
-    
   }
   
   resetButton.addEventListener('click', resetVotes);
@@ -509,8 +505,7 @@ $(() => {
   
   socket.on('updateFinalVote', (data) => {
     document.querySelector("#finalVoteChoice").innerHTML = data.finalVote;
-    console.log(data.finalVote);
-    console.log(playerVote);
+
     
   });
   
