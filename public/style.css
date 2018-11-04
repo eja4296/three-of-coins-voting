@@ -529,17 +529,12 @@ ul {
     background-color: white;
   }
   
-  #leftSide .inputMessage{
-    height: 25%;
+  #leftSide{
+    display: none;
+    visibility: hidden;
   }
   
-  #leftSide .chatArea{
-    
-    height: 75%;
-    bottom: 0;
-    border-left: none;
-    border-top: 5px solid black;
-  }
+
 
 #rightSide{
   
