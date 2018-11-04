@@ -131,13 +131,39 @@
 
 -->
       <div id="rightSide">
-       <div id="voteButtons">          
-                  <button id="button0">A</button>
-                  <button id="button1">B</button>
-                  <button id="button2">C</button>
-                  <button id="button3">D</button>
-                </div>
+        <div id="title">
+          Three of Coins
         </div>
+
+        <div id="voteArea">
+          <div id="voteButtons">          
+            <button id="button0" value="Sword">Sword</button>
+            <button id="button1" value="Wand">Wand</button>
+            <button id="button2" value="Cup">Cup</button>
+            <button id="button3" value="Coin">Coin</button>
+          </div>
+
+          <div id="userVote">
+            Your vote: <div id="userVoteChoice"></div>
+          </div>
+          <div id="totalVotes">
+            Votes counted: <div id="numOfUsersVoted">0/0</div>
+          </div>
+          <div id="userVoteWeight">
+            Your vote weight: <div id="weight">1</div>
+          </div>
+          <div id="finalVote">
+            Fate has decided you will use your: <div id="finalVoteChoice"></div>
+          </div>
+          <div id="SubmitResetVotes">
+            <button id="submitVotesButton">Submit Votes</button>
+            <button id="resetVotesButton">Reset Votes</button>
+          </div>
+          
+        </div>
+        
+        
+      </div>
       
       <div id="leftSide">
         <div class="chatArea">

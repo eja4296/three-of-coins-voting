@@ -22,9 +22,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Variables stored on server
 
 let numUsers = 0;
-let voteTimer = 30;
-let changeEventTimer = -1;
-let eventResolutionTimer = -1;
+let numUsersVoted = 0;
+const voteTimer = 30;
+const changeEventTimer = -1;
+const eventResolutionTimer = -1;
 const numOfEvents = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const usedNums = [];
 const usedEvents = [];
@@ -32,6 +33,13 @@ let gameStarted = false;
 
 let currentEvent;
 const allEvents = [];
+
+let swordVotes = [];
+let wandVotes = [];
+let cupVotes = [];
+let coinVotes = [];
+
+let finalVote = "";
 
 const fool = {
   health: 10,
@@ -270,7 +278,6 @@ const magician_cup_no = {
 allMagicianEvents.push(magician_cup_no);
 
 
-
   var newMagician = {
     title: "The Magician",
     name: "magician",
@@ -326,7 +333,7 @@ allMagicianEvents.push(magician_cup_no);
       },
     ],
   }
-  
+
 const magician = {
   title: 'The Magician',
   name: 'magician',
@@ -457,9 +464,8 @@ const eventResIndex = -1;
 
 /*
 setInterval(() => {
-  
-  
-  
+
+
   if (gameStarted) {
     // Vote timer is default
     // As long as it is > 0, it is the voting phase
@@ -544,7 +550,7 @@ setInterval(() => {
         }
 
         // EVENT RESOLUTION
-        
+
         switch(currentEvent.effectStat[topVote]){
           case "health":
             fool.health += currentEvent.effectPower[topVote];
@@ -564,7 +570,6 @@ setInterval(() => {
           default:
             break;
         }
-        
 
 
         // Call voting complete on client side
@@ -598,7 +603,6 @@ setInterval(() => {
         });
 
 
-        
         // Randomly select a new event from the list of events
         let randomEvent = 0;
         if(numOfEvents.length != usedNums.length){
@@ -628,7 +632,6 @@ setInterval(() => {
         }
 
         currentEvent = allEvents[randomEvent];
-        
 
 
         let endGame = true;
@@ -694,7 +697,6 @@ setInterval(() => {
 io.on('connection', (socket) => {
   let addedUser = false;
 
-  
 
   if (gameStarted) {
     io.sockets.emit('load event', {
@@ -763,12 +765,13 @@ io.on('connection', (socket) => {
     addedUser = true;
     socket.emit('login', {
       numUsers,
+      numUsersVoted
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
       username: socket.username,
       numUsers,
-
+      numUsersVoted
     });
 
     io.emit('voting', {
@@ -793,8 +796,121 @@ io.on('connection', (socket) => {
       votes: votesArray,
     });
   });
+  
+  socket.on('playerVote', (vote, weight, previousVote, playerVoted) => {
+    
+    if(playerVoted == false){
+      numUsersVoted += 1;
+    }
+    
+    switch(vote){
+      case "Sword":
+        for(var i = 0; i < weight; i++){
+          swordVotes.push("Sword");
+        }
+        break;
+      case "Wand":
+        for(var i = 0; i < weight; i++){
+          wandVotes.push("Wand");
+        }
+        break;
+      case "Cup":
+        for(var i = 0; i < weight; i++){
+          cupVotes.push("Cup");
+        }
+        break;
+      case "Coin":
+        for(var i = 0; i < weight; i++){
+          coinVotes.push("Coin");
+        }
+        break;
+      default:
+        break;
+    }
+    
+    switch(previousVote){
+      case "Sword":
+        for(var i = 0; i < weight; i++){
+          swordVotes.pop();
+        }
+        break;
+      case "Wand":
+        for(var i = 0; i < weight; i++){
+          wandVotes.pop();
+        }
+        break;
+      case "Cup":
+        for(var i = 0; i < weight; i++){
+          cupVotes.pop();
+        }
+        break;
+      case "Coin":
+        for(var i = 0; i < weight; i++){
+          coinVotes.pop();
+        }
+        break;
+      default:
+        break;
+    }
+    
+    console.log("sword: " + swordVotes.length);
+    console.log("wand: " + wandVotes.length);
+    console.log("cup: " + cupVotes.length);
+    console.log("coin: " + coinVotes.length);
+    
+    io.emit('updatePlayerVotes', {
+      numUsersVoted: numUsersVoted,
+      numUsers: numUsers
+    });
+    
+  });
+  
+  socket.on('submitVotes', () => {
+    let allVotes = [];
+    
+    for(var i = 0; i < swordVotes.length; i++){
+      allVotes.push(swordVotes[i]);
+    }
+    for(var i = 0; i < wandVotes.length; i++){
+      allVotes.push(wandVotes[i]);
+    }
+    for(var i = 0; i < cupVotes.length; i++){
+      allVotes.push(cupVotes[i]);
+    }
+    for(var i = 0; i < coinVotes.length; i++){
+      allVotes.push(coinVotes[i]);
+    }
+    
+    //console.log(allVotes);
+    let randomNum = Math.floor(Math.random() * allVotes.length);
+    
+    finalVote = allVotes[randomNum]
+    //console.log(allVotes[randomNum]);
+    
+    io.emit('updateFinalVote', {
+      finalVote: finalVote,
+    });
+  });
 
+  
+  socket.on('resetVotes', () => {
+    
+    swordVotes = [];
+    wandVotes = [];
+    cupVotes = [];
+    coinVotes = [];
+    numUsersVoted = 0;
+    
+    io.emit('resetVotes', {
+      finalVote: finalVote,
+    });
+    
+    finalVote = "";
+    
+  });
+  
   // Reset votes on client and server
+  /*
   socket.on('resetVotes', () => {
     for (let i = 0; i < votesArray.length; i++) {
       votesArray[i] = 0;
@@ -804,7 +920,7 @@ io.on('connection', (socket) => {
       votes: votesArray,
     });
   });
-
+  */
 
   // when the client emits 'stop typing', we broadcast it to others
   socket.on('stop typing', () => {
@@ -816,12 +932,17 @@ io.on('connection', (socket) => {
   // when the user disconnects.. perform this
   socket.on('disconnect', () => {
     if (addedUser) {
+      
+      if(numUsers == numUsersVoted){
+        --numUsersVoted;
+      }
       --numUsers;
 
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
         numUsers,
+        numUsersVoted,
       });
     }
   });

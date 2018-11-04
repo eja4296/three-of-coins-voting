@@ -27,20 +27,20 @@ $(() => {
 
   // Vote variables
   const votes = [];
-  let vA = 0;
-  let vB = 0;
-  let vC = 0;
-  let vD = 0;
+  const vA = 0;
+  const vB = 0;
+  const vC = 0;
+  const vD = 0;
   let timer;
   let topVote;
-  let votingComplete = false;
+  const votingComplete = false;
 
   /*
   const $voteA = $('#voteA');
   const $voteB = $('#voteB');
   const $voteC = $('#voteC');
   const $voteD = $('#voteD');
-  
+
   */
 
   // Get buttons for voting
@@ -49,12 +49,19 @@ $(() => {
   const buttonC = document.querySelector('#button2');
   const buttonD = document.querySelector('#button3');
   
+  const submitButton = document.querySelector('#submitVotesButton');
+  const resetButton = document.querySelector('#resetVotesButton');
 
-//  const startButton = document.querySelector('#startButton');
 
+  //  const startButton = document.querySelector('#startButton');
+
+  let totalPlayers = 0;
+  let totalPlayersVoted = 0;
+  
   // Player variables
   let playerVote;
-  let playerVoteIndex = -1;
+  let playerPreviousVote = "";
+  const playerVoteIndex = -1;
   let playerVoteWeight = 1;
   let playerVoted = false;
 
@@ -80,7 +87,7 @@ $(() => {
 
   // Load event function
   // Loads all information about the current event
-  
+
   /*
   const loadEvent = (eventCard) => {
     // Add information about the event to the client page
@@ -166,7 +173,6 @@ $(() => {
 
   // Adds the visual chat message to the message list
   const addChatMessage = (data, options) => {
-    
     // Don't fade the message in if there is an 'X was typing'
     const $typingMessages = getTypingMessages(data);
     options = options || {};
@@ -188,8 +194,6 @@ $(() => {
       .append($usernameDiv, $messageBodyDiv);
 
     addMessageElement($messageDiv, options);
-
-
   };
 
   // Adds the visual chat typing message
@@ -279,6 +283,71 @@ $(() => {
   };
 
   
+  const userVote = (e) => {
+    /*
+    //console.log(e.target.value);
+    switch(e.target.value){
+      case "Sword":
+        playerVote = 
+        break;
+      case "Wand":
+        console.log(e.target.value);
+        break;
+      case "Cup":
+        console.log(e.target.value);
+        break;
+      case "Coin":
+        console.log(e.target.value);
+        break;
+      default:
+        break;
+    }
+    */
+    
+    playerPreviousVote = playerVote;
+    playerVote = e.target.value;
+    
+    
+    console.log(playerVote);
+    console.log(playerPreviousVote);
+    if(playerVote != playerPreviousVote){
+      socket.emit('playerVote', playerVote, playerVoteWeight, playerPreviousVote, playerVoted);
+      buttonA.style.border = "1px solid black";
+      buttonB.style.border = "1px solid black";
+      buttonC.style.border = "1px solid black";
+      buttonD.style.border = "1px solid black";
+      e.target.style.border = "3px solid black";
+      document.querySelector("#userVoteChoice").innerHTML = e.target.value;
+    }
+    
+    playerVoted = true;
+    
+    
+  }
+  
+  buttonA.addEventListener('click', userVote);
+  buttonB.addEventListener('click', userVote);
+  buttonC.addEventListener('click', userVote);
+  buttonD.addEventListener('click', userVote);
+
+  const submitVotes = () =>{
+    if(totalPlayersVoted > 0){
+      socket.emit('submitVotes');
+    }
+    
+  }
+  
+  submitButton.addEventListener('click', submitVotes);
+  
+  const resetVotes = () =>{
+    socket.emit('resetVotes');
+    
+    
+  }
+  
+  resetButton.addEventListener('click', resetVotes);
+  
+  
   /*
   // Get votes function
   // Gets the votes from the server each time a player votes
@@ -336,8 +405,7 @@ $(() => {
     }
   };
 
-  
-  
+
   const startGame = (data) => {
     socket.emit('start game');
   };
@@ -398,10 +466,13 @@ $(() => {
 
   // Whenever the server emits 'login', log the login message
   socket.on('login', (data) => {
-    
     if (username != 'TOC_Admin') {
-      //document.querySelector('#startButton').style.display = 'none';
+      // document.querySelector('#startButton').style.display = 'none';
     }
+    
+    totalPlayersVoted = data.numUsersVoted;
+    totalPlayers = data.numUsers;
+    document.querySelector("#numOfUsersVoted").innerHTML = totalPlayersVoted + "/" + totalPlayers; 
 
     connected = true;
     // Display the welcome message
@@ -414,7 +485,6 @@ $(() => {
 
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', (data) => {
-    
     addChatMessage(data);
     // getVotes(data);
   });
@@ -423,10 +493,51 @@ $(() => {
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', (data) => {
     log(`${data.username} joined`);
+    
+    totalPlayersVoted = data.numUsersVoted;
+    totalPlayers = data.numUsers;
+    document.querySelector("#numOfUsersVoted").innerHTML = totalPlayersVoted + "/" + totalPlayers; 
 
     addParticipantsMessage(data);
   });
 
+  socket.on('updatePlayerVotes', (data) => {
+    totalPlayersVoted = data.numUsersVoted;
+    totalPlayers = data.numUsers;
+    document.querySelector("#numOfUsersVoted").innerHTML = totalPlayersVoted + "/" + totalPlayers; 
+  });
+  
+  socket.on('updateFinalVote', (data) => {
+    document.querySelector("#finalVoteChoice").innerHTML = data.finalVote;
+    console.log(data.finalVote);
+    console.log(playerVote);
+    
+  });
+  
+  socket.on('resetVotes', (data) => {
+    
+    if(data.finalVote != playerVote && playerVoteWeight < 5){
+      playerVoteWeight += 1;
+    }
+    if(data.finalVote == playerVote){
+      playerVoteWeight = 1;
+    }
+
+    document.querySelector("#weight").innerHTML = playerVoteWeight;
+    
+    buttonA.style.border = "1px solid black";
+    buttonB.style.border = "1px solid black";
+    buttonC.style.border = "1px solid black";
+    buttonD.style.border = "1px solid black";
+    
+    playerVoted = false;
+    playerPreviousVote = "";
+    
+    document.querySelector("#userVoteChoice").innerHTML = "";
+    totalPlayersVoted = 0;
+    document.querySelector("#numOfUsersVoted").innerHTML = totalPlayersVoted + "/" + totalPlayers; 
+    document.querySelector("#finalVoteChoice").innerHTML = "";
+  });
   /*
   // First the client adds a vote to the server
   // The server holds all of the votes
@@ -592,7 +703,7 @@ $(() => {
     document.querySelector('#luck').innerHTML = `Luck: ${data.fool.luck}`;
     document.querySelector('#gold').innerHTML = `Gold: ${data.fool.gold}`;
   });
-  
+
 
   // Server tells the client it is the event intermission
   socket.on('event intermission', (data) => {
@@ -621,6 +732,9 @@ $(() => {
     log(`${data.username} left`);
     addParticipantsMessage(data);
     removeChatTyping(data);
+    totalPlayersVoted = data.numUsersVoted;
+    totalPlayers = data.numUsers;
+    document.querySelector("#numOfUsersVoted").innerHTML = totalPlayersVoted + "/" + totalPlayers; 
   });
 
   // Whenever the server emits 'typing', show the typing message
