@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Variables stored on server
 
+let usernames = [];
 let numUsers = 0;
 let numUsersVoted = 0;
 const voteTimer = 30;
@@ -762,16 +763,23 @@ io.on('connection', (socket) => {
     // we store the username in the socket session for this client
     socket.username = username;
     ++numUsers;
+    
+    if(!usernames[username]){
+      usernames.push(username);
+    }
     addedUser = true;
     socket.emit('login', {
       numUsers,
-      numUsersVoted
+      numUsersVoted,
+      usernames,
+      username
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
       username: socket.username,
       numUsers,
-      numUsersVoted
+      numUsersVoted,
+      usernames,
     });
 
     io.emit('voting', {
@@ -797,7 +805,7 @@ io.on('connection', (socket) => {
     });
   });
   
-  socket.on('playerVote', (vote, weight, previousVote, playerVoted) => {
+  socket.on('playerVote', (vote, weight, previousVote, playerVoted, username) => {
     
     if(playerVoted == false){
       numUsersVoted += 1;
@@ -855,12 +863,20 @@ io.on('connection', (socket) => {
 
     io.emit('updatePlayerVotes', {
       numUsersVoted: numUsersVoted,
-      numUsers: numUsers
+      numUsers: numUsers,
+      vote: vote,
+      weight: weight,
+      usernames: usernames,
+      username: username,
+      swordVotes,
+      wandVotes,
+      cupVotes,
+      coinVotes,
     });
     
   });
   
-  socket.on('submitVotes', () => {
+  socket.on('submitVotes', (data) => {
     let allVotes = [];
     
     for(var i = 0; i < swordVotes.length; i++){
@@ -884,6 +900,7 @@ io.on('connection', (socket) => {
     
     io.emit('updateFinalVote', {
       finalVote: finalVote,
+      allVotes,
     });
   });
 
@@ -898,6 +915,7 @@ io.on('connection', (socket) => {
     
     io.emit('resetVotes', {
       finalVote: finalVote,
+      usernames,
     });
     
     finalVote = "";
@@ -932,12 +950,17 @@ io.on('connection', (socket) => {
         --numUsersVoted;
       }
       --numUsers;
+      
+      let index = usernames.indexOf(socket.username);
+      
+      usernames.splice(index, 1);
 
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
         numUsers,
         numUsersVoted,
+        usernames,
       });
     }
   });

@@ -18,6 +18,7 @@ $(() => {
 
   // Prompt for setting a username
   let username;
+  let usernames = [];
   let connected = false;
   let typing = false;
   let lastTypingTime;
@@ -310,7 +311,7 @@ $(() => {
     
 
     if(playerVote != playerPreviousVote){
-      socket.emit('playerVote', playerVote, playerVoteWeight, playerPreviousVote, playerVoted);
+      socket.emit('playerVote', playerVote, playerVoteWeight, playerPreviousVote, playerVoted, username);
       buttonA.style.border = "1px solid black";
       buttonB.style.border = "1px solid black";
       buttonC.style.border = "1px solid black";
@@ -330,9 +331,9 @@ $(() => {
   buttonD.addEventListener('click', userVote);
 
   const submitVotes = () =>{
-    if(totalPlayersVoted > 0){
+    //if(totalPlayersVoted > 0){
       socket.emit('submitVotes');
-    }
+    //}
   }
   
   submitButton.addEventListener('click', submitVotes);
@@ -463,8 +464,30 @@ $(() => {
   // Whenever the server emits 'login', log the login message
   socket.on('login', (data) => {
     if (username != 'TOC_Admin') {
-      // document.querySelector('#startButton').style.display = 'none';
+      document.querySelector('#totalVotes').style.display = 'none';
+      document.querySelector('#submitResetVotes').style.display = 'none';
+      document.querySelector('#allVotes').style.display = 'none';
+      document.querySelector('#players').style.display = 'none';
     }
+    
+    usernames = data.usernames;
+    
+    let parent = document.querySelector("#players");
+
+
+    for(var i = 0; i < usernames.length; i++){
+      let newUser = document.createElement("div");
+      //parent.removeChild("#players" + data.usernames[i]);
+      newUser.setAttribute("id", "players" + data.usernames[i]);
+
+
+      parent.appendChild(newUser);
+
+      newUser.innerHTML = data.usernames[i] + ": "
+    }
+    
+    
+
     
     totalPlayersVoted = data.numUsersVoted;
     totalPlayers = data.numUsers;
@@ -490,6 +513,17 @@ $(() => {
   socket.on('user joined', (data) => {
     log(`${data.username} joined`);
     
+    let parent = document.querySelector("#players");
+
+    let newUser = document.createElement("div");
+    //parent.removeChild("#players" + data.usernames[i]);
+    newUser.setAttribute("id", "players" + data.username);
+
+    parent.appendChild(newUser);
+    
+    document.querySelector("#players" + data.username).innerHTML = data.username + ": "
+      
+    
     totalPlayersVoted = data.numUsersVoted;
     totalPlayers = data.numUsers;
     document.querySelector("#numOfUsersVoted").innerHTML = totalPlayersVoted + "/" + totalPlayers; 
@@ -500,7 +534,18 @@ $(() => {
   socket.on('updatePlayerVotes', (data) => {
     totalPlayersVoted = data.numUsersVoted;
     totalPlayers = data.numUsers;
+    usernames = data.usernames;
     document.querySelector("#numOfUsersVoted").innerHTML = totalPlayersVoted + "/" + totalPlayers; 
+    
+    usernames = data.usernames;
+
+    document.querySelector("#players" + data.username).innerHTML = data.username + ": " + data.vote + " (" + data.weight + ")<br>";
+    
+    document.querySelector("#allVotes").innerHTML = "Votes for Sword: " + data.swordVotes.length;
+    document.querySelector("#allVotes").innerHTML += "<br>Votes for Wand: " + data.wandVotes.length;
+    document.querySelector("#allVotes").innerHTML += "<br>Votes for Cup: " + data.cupVotes.length;
+    document.querySelector("#allVotes").innerHTML += "<br>Votes for Coin: " + data.coinVotes.length;
+    //document.querySelector("#players" + data.username).innerHTML = usernames + ": " + data.vote + " (" + data.weight + ")<br>";
   });
   
   socket.on('updateFinalVote', (data) => {
@@ -524,6 +569,16 @@ $(() => {
     buttonB.style.border = "1px solid black";
     buttonC.style.border = "1px solid black";
     buttonD.style.border = "1px solid black";
+    
+    for(var i = 0; i < usernames.length; i++){
+
+      document.querySelector("#players" + data.usernames[i]).innerHTML = data.usernames[i] + ": ";
+    }
+    
+    document.querySelector("#allVotes").innerHTML = "Votes for Sword: 0";
+    document.querySelector("#allVotes").innerHTML += "<br>Votes for Wand: 0";
+    document.querySelector("#allVotes").innerHTML += "<br>Votes for Cup: 0";
+    document.querySelector("#allVotes").innerHTML += "<br>Votes for Coin: 0";
     
     playerVoted = false;
     playerPreviousVote = "";
@@ -729,6 +784,8 @@ $(() => {
     removeChatTyping(data);
     totalPlayersVoted = data.numUsersVoted;
     totalPlayers = data.numUsers;
+    usernames = data.usernames;
+    document.querySelector("#players" + data.username).remove();
     document.querySelector("#numOfUsersVoted").innerHTML = totalPlayersVoted + "/" + totalPlayers; 
   });
 

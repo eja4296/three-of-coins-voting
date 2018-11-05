@@ -272,6 +272,33 @@ ul {
     border-bottom: 1px solid black;
 }
 
+#rightSide #voteArea #submitResetVotes{
+  position: relative;
+  float: left;
+  width: 100%;
+}
+
+#rightSide #voteArea #players{
+  position: relative;
+  float: left;
+  width: 80%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+  text-align: left;
+}
+
+#rightSide #voteArea #allVotes{
+  position: relative;
+  float: left;
+  width: 80%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+  text-align: left;
+}
 
 #leftSide{
   height: 100%;
